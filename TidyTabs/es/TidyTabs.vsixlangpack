@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<VsixLanguagePack Version="1.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema-lp/2010">
+  <LocalizedName>Tidy Tabs</LocalizedName>
+  <LocalizedDescription>Tidy Tabs mantiene su documento bien organizado por el cierre de las fichas que ya no se está utilizando. Aquí que no han sido vistos en una cantidad de tiempo configurable se pueden cerrar con un atajo de teclado (CTRL + ALT + ESC) o se cierran de forma automática cada vez que se guarda un documento.</LocalizedDescription>
+</VsixLanguagePack>

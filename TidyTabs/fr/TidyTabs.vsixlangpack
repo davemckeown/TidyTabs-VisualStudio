@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<VsixLanguagePack Version="1.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema-lp/2010">
+  <LocalizedName>Tidy Tabs</LocalizedName>
+  <LocalizedDescription>Tidy Tabs garde votre document Visual Studio bien organisé par onglets qui ne sont plus utilisés fermeture. Onglets qui n'ont pas été vus dans un délai configurable peuvent être fermés avec un raccourci clavier (CTRL + ALT + ESC) ou fermées automatiquement chaque fois que vous enregistrez un document.</LocalizedDescription>
+</VsixLanguagePack>

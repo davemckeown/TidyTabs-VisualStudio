@@ -1,0 +1,53 @@
+<h1>Tidy Tabs for Visual Studio</h1>
+
+<p><em>Based on <a href="https://github.com/bradleyboy/TidyTabs-Sublime">Tidy Tabs for Sublime Text</a> by Brad Daily</em></p>
+
+<blockquote>
+  <p>Ever get to the end (middle?) of a day of coding only to find your window littered with tabs that are nearly impossible to search through visually? Find yourself rage-quitting all your tabs in disgust and starting over? No? Just me? Ok.</p>
+</blockquote>
+
+<p>Tidy Tabs is a Visual Studio extension that keeps your document well organized by closing document tabs you are no longer using. </p>
+
+<hr />
+
+<h2>Installation</h2>
+
+<p><a href="http://visualstudiogallery.msdn.microsoft.com/b80ab284-83f8-4022-bc78-95af126ba5f0">Install from the Visual Studio Gallery</a></p>
+
+<hr />
+
+<h2>Usage</h2>
+
+<p>Close unused tabs with Tidy Tabs using the keyboard shortcut CTRL + ALT + ESC at any time.</p>
+
+<p>By default Tidy Tabs will also close unused tabs whenever you save a document.</p>
+
+<p>Tidy Tabs will never close the active document or any pinned tabs.</p>
+
+<hr />
+
+<h2>Settings</h2>
+
+<p>The following default settings can be modified by opening <em>Tools -> Options -> Tidy Tabs</em> in Visual Studio:</p>
+
+<p><strong><em>Close on Save</em></strong> (<em>default: true</em>)</p>
+
+<p>If you only want Tidy Tabs to run when triggered with the keyboard shortcut set this to false.</p>
+
+<p><strong><em>Timeout Minutes</em></strong> (<em>default: 10 minutes</em>)</p>
+
+<p>Once a tab has not be viewed for this length of time Tidy Tabs will close it next time it is run. Tab timeouts are paused when you are outside of Visual Studio and resume when it becomes the active application.</p>
+
+<p><strong><em>Open Tab Threshold</em></strong> (<em>default: 0</em>)</p>
+
+<p>If this value is greater than 0 then Tidy Tabs will only attempt to close tabs when the number of open windows exceeds this value.</p>
+
+<p><strong><em>Maximum Open Tabs</em></strong> (<em>default: 0</em>)</p>
+
+<p>If this value is greater than 0 then Tidy Tabs will close the oldest tabs until the number of open tabs is equal to this value. The oldest tabs will be closed even if they have not exceeded the timeout value.</p>
+
+<hr />
+
+<h2>Contribute</h2>
+
+<p><a href="https://github.com/davemckeown/TidyTabs-VisualStudio">Submit issues and Pull Requests at Github</a></p>
