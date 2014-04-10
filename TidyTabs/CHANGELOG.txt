@@ -1,3 +1,9 @@
+2014-04-10 (v.1.9.3)
+* Fixes error where in some situations the Open Tab Threshold would be off by one
+
+2014-04-10 (v.1.9.2)
+* Fixes error where Maximum Open Tabs was not disabled when set to zero
+
 2014-04-10 (v.1.9.1)
 * Fix issue with extension loading in VS2012 requiring VS2013 library
 
