@@ -265,7 +265,11 @@ namespace DaveMcKeown.TidyTabs
             lock (documentPurgeLock)
             {
                 CloseStaleWindows();
-                CloseOldestWindows();
+
+                if (Settings.MaxOpenTabs > 0)
+                {
+                    CloseOldestWindows();                    
+                }
             }
         }
 
