@@ -301,16 +301,16 @@ namespace DaveMcKeown.TidyTabs
 
             foreach (DocumentTimestamp tab in inactiveWindows.Where(x => allWindows.ContainsKey(x.DocumentPath)))
             {
+                if (closedTabsCtr >= closeMaxTabs)
+                {
+                    break;
+                }
+
                 Window window = allWindows[tab.DocumentPath];
 
                 if (CloseDocumentWindow(window))
                 {
                     closedTabsCtr++;
-                }
-
-                if (closedTabsCtr >= closeMaxTabs)
-                {
-                    break;
                 }
             }
 
