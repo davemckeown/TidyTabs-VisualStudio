@@ -1,2 +1,5 @@
+2014-04-10 (v.1.9.1)
+* Fix issue with extension loading in VS2012 requiring VS2013 library
+
 2014-04-08 (v1.9.0)
 * Initial public release
