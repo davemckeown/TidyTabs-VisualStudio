@@ -1,5 +1,7 @@
 ﻿#Tidy Tabs for Visual Studio
 
+[![Build status](https://ci.appveyor.com/api/projects/status/eu6l3r90wmpco5hq)](https://ci.appveyor.com/project/DaveMcKeown/tidytabs-visualstudio)
+
 _Based on [Tidy Tabs for Sublime Text](https://github.com/bradleyboy/TidyTabs-Sublime) by Brad Daily_
 
 
