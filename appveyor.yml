@@ -1,0 +1,13 @@
+# Branchs to build
+branches:
+  only:
+    - master    
+
+configuration: Release
+
+build:
+  project: TidyTabs.sln
+  verbosity: minimal
+
+artifacts:
+  - path: TidyTabs\bin\Release\TidyTabs.vsix
