@@ -24,7 +24,7 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-	<DeployExtension Condition=" '$(AppVeyor)' != '' ">False</DeployExtension>
+    <DeployExtension Condition=" '$(AppVeyor)' != '' ">False</DeployExtension>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -131,7 +131,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DocumentTimestamp.cs" />
+    <Compile Include="WindowTimestamp.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GuidList.cs" />
     <Compile Include="Attributes\LocalizedCategory.cs" />

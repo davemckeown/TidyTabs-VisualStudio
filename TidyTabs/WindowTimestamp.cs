@@ -6,28 +6,30 @@
 //   A more strongly typed key value pair that represents a document path and it's last view timestamp
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+
 namespace DaveMcKeown.TidyTabs
 {
     using System;
+    using EnvDTE;
 
     /// <summary>
-    ///     A more strongly typed key value pair that represents a document path and it's last view timestamp
+    ///     A more strongly typed key value pair that represents a window hash code and it's last view timestamp
     /// </summary>
-    internal class DocumentTimestamp
+    internal class WindowTimestamp
     {
-        /// <summary>Initializes a new instance of the DocumentTimestamp class</summary>
-        /// <param name="path">Path to the document</param>
+        /// <summary>Initializes a new instance of the WindowTimestamp class</summary>
+        /// <param name="window">Hash code for a window</param>
         /// <param name="timestamp">The time it was last seen</param>
-        public DocumentTimestamp(string path, DateTime timestamp)
+        public WindowTimestamp(Window window, DateTime timestamp)
         {
-            DocumentPath = path;
+            Window = window;
             Timestamp = timestamp;
         }
 
         /// <summary>
-        ///     Gets the document path
+        ///     Gets the Window
         /// </summary>
-        public string DocumentPath { get; private set; }
+        public Window Window { get; private set; }
 
         /// <summary>
         ///     Gets the time a document was last seen
