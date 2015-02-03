@@ -10,7 +10,8 @@
     <License>LICENSE.txt</License>
     <GettingStartedGuide>https://github.com/davemckeown/TidyTabs-VisualStudio</GettingStartedGuide>
     <ReleaseNotes>CHANGELOG.txt</ReleaseNotes>
-    <Icon>TidyTabs.ico</Icon>
+    <Icon>Resources\icon.png</Icon>
+    <PreviewImage>Resources\preview.png</PreviewImage>
     <Tags>tabs, visual studio, coding</Tags>
   </Metadata>
   <Installation InstalledByMsi="false">
