@@ -10,7 +10,6 @@ namespace DaveMcKeown.TidyTabs
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Collections.Generic;
     using System.ComponentModel.Design;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
@@ -46,9 +45,9 @@ namespace DaveMcKeown.TidyTabs
         private readonly object documentPurgeLock = new object();
 
         /// <summary>
-        ///     Dictionary that tracks the path to a document and the last time it was viewed
+        ///     Dictionary that tracks window hash codes and when they were last seen
         /// </summary>
-        private readonly ConcurrentDictionary<string, DateTime> documentLastSeen = new ConcurrentDictionary<string, DateTime>();
+        private readonly ConcurrentDictionary<Window, DateTime> documentLastSeen = new ConcurrentDictionary<Window, DateTime>();
 
         /// <summary>
         ///     Visual studio build events
@@ -167,20 +166,25 @@ namespace DaveMcKeown.TidyTabs
         public int OnBroadcastMessage(uint msg, IntPtr wordParam, IntPtr longParam)
         {
             // WM_ACTIVATEAPP 
-            if (msg == 0x1C)
+            if (msg != 0x1C)
+            {
+                return VSConstants.S_OK;
+            }
+
+            lock (documentPurgeLock)
             {
                 if (lastAction != DateTime.MinValue)
                 {
-                    TimeSpan idleTime = DateTime.Now - lastAction;
+                    var idleTime = DateTime.Now - lastAction;
 
-                    foreach (string path in documentLastSeen.Keys)
+                    foreach (var windowTimePair in documentLastSeen)
                     {
-                        documentLastSeen[path] = documentLastSeen[path].Add(idleTime);
+                        UpdateWindowTimestamp(windowTimePair.Key, windowTimePair.Value.Add(idleTime));
                     }
                 }
-
-                lastAction = DateTime.Now;
             }
+
+            lastAction = DateTime.Now;
 
             return VSConstants.S_OK;
         }
@@ -280,10 +284,24 @@ namespace DaveMcKeown.TidyTabs
         /// <returns>True if window was closed</returns>
         private bool CloseDocumentWindow(Window window)
         {
-            if (window != VisualStudio.ActiveWindow && window.Document.Saved && !Provider.IsWindowPinned(window.Document.FullName))
+
+            DateTime lastWindowAction;
+
+            try
             {
-                window.Close();
-                return true;
+                if (window != VisualStudio.ActiveWindow
+                    && (window.Document == null
+                        || (window.Document.Saved && !Provider.IsWindowPinned(window.Document.FullName))))
+                {
+                    documentLastSeen.TryRemove(window, out lastWindowAction);
+
+                    window.Close();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                documentLastSeen.TryRemove(window, out lastWindowAction);
             }
 
             return false;
@@ -294,19 +312,19 @@ namespace DaveMcKeown.TidyTabs
         /// </summary>
         private void CloseStaleWindows()
         {
-            Dictionary<string, Window> allWindows = VisualStudio.Windows.GetDocumentWindows().ToDictionary(x => x.Document.FullName);
-            int closeMaxTabs = allWindows.Count - Settings.TabCloseThreshold;
-            List<DocumentTimestamp> inactiveWindows = documentLastSeen.GetInactiveTabKeys().ToList();
-            int closedTabsCtr = 0;
+            var allWindows = VisualStudio.Windows.GetDocumentWindows().ToDictionary(x => x);
+            var closeMaxTabs = allWindows.Count - Settings.TabCloseThreshold;
+            var inactiveWindows = documentLastSeen.GetInactiveTabKeys().ToList();
+            var closedTabsCtr = 0;
 
-            foreach (DocumentTimestamp tab in inactiveWindows.Where(x => allWindows.ContainsKey(x.DocumentPath)))
+            foreach (var tab in inactiveWindows.Where(x => allWindows.ContainsKey(x.Window)))
             {
                 if (closedTabsCtr >= closeMaxTabs)
                 {
                     break;
                 }
 
-                Window window = allWindows[tab.DocumentPath];
+                Window window = allWindows[tab.Window];
 
                 if (CloseDocumentWindow(window))
                 {
@@ -325,12 +343,12 @@ namespace DaveMcKeown.TidyTabs
         /// </summary>
         private void CloseOldestWindows()
         {
-            Dictionary<string, Window> allWindows = VisualStudio.Windows.GetDocumentWindows().ToDictionary(x => x.Document.FullName);
+            var allWindows = VisualStudio.Windows.GetDocumentWindows().ToDictionary(x => x);
 
             int startingWindowCount = allWindows.Count;
             int documentWindows = startingWindowCount;
 
-            foreach (string documentPath in documentLastSeen.OrderBy(x => x.Value).Select(x => x.Key))
+            foreach (var documentPath in documentLastSeen.OrderBy(x => x.Value).Select(x => x.Key))
             {
                 if (documentWindows <= Settings.MaxOpenTabs)
                 {
@@ -363,7 +381,11 @@ namespace DaveMcKeown.TidyTabs
                 }
 
                 DateTime value;
-                documentLastSeen.TryRemove(document.FullName, out value);
+
+                foreach (var window in document.Windows.Cast<Window>())
+                {
+                    documentLastSeen.TryRemove(window, out value);
+                }
             }
             catch (Exception ex)
             {
@@ -393,9 +415,9 @@ namespace DaveMcKeown.TidyTabs
         {
             try
             {
-                foreach (Window window in VisualStudio.Windows.GetDocumentWindows())
+                foreach (var window in VisualStudio.Windows.GetDocumentWindows())
                 {
-                    documentLastSeen.TryAdd(window.Document.FullName, DateTime.Now);
+                    UpdateWindowTimestamp(window);
                 }
             }
             catch (Exception ex)
@@ -431,21 +453,23 @@ namespace DaveMcKeown.TidyTabs
         }
 
         /// <summary>Updates the timestamp for a document path</summary>
-        /// <param name="document">The document to update</param>
-        private void UpdateDocumentTimestamp(Document document)
+        /// <param name="window">The document to update</param>
+        /// <param name="timestamp">The last activity timestamp</param>
+        private void UpdateWindowTimestamp(Window window, DateTime? timestamp = null)
         {
-            if (document == null)
+            // Ignore tool windows
+            if (window == null || window.Linkable)
             {
                 return;
             }
 
-            if (!documentLastSeen.ContainsKey(document.FullName))
+            if (!documentLastSeen.ContainsKey(window))
             {
-                documentLastSeen.TryAdd(document.FullName, DateTime.Now);
+                documentLastSeen.TryAdd(window, timestamp ?? DateTime.Now);
             }
             else
             {
-                documentLastSeen[document.FullName] = DateTime.Now;
+                documentLastSeen[window] = timestamp ?? DateTime.Now;
             }
         }
 
@@ -457,11 +481,11 @@ namespace DaveMcKeown.TidyTabs
             try
             {
                 lastAction = DateTime.Now;
-                UpdateDocumentTimestamp(gotFocus.Document);
+                UpdateWindowTimestamp(gotFocus);
 
                 if (lostFocus != null)
                 {
-                    UpdateDocumentTimestamp(lostFocus.Document);
+                    UpdateWindowTimestamp(lostFocus);
                 }
             }
             catch (Exception ex)

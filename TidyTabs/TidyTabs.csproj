@@ -127,7 +127,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DocumentTimestamp.cs" />
+    <Compile Include="WindowTimestamp.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GuidList.cs" />
     <Compile Include="Attributes\LocalizedCategory.cs" />

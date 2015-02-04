@@ -31,17 +31,17 @@ namespace DaveMcKeown.TidyTabs
         /// <returns>An enumerable sequence of windows</returns>
         public static IEnumerable<Window> GetDocumentWindows(this Windows windows)
         {
-            return windows.Cast<Window>().Where(x => x.Document != null);
+            return windows.Cast<Window>().Where(x => x.Linkable == false);
         }
 
         /// <summary>Enumerates the document tabs timeout dictionary and returns the key for tabs that are inactive</summary>
         /// <param name="documentTabKeys">Dictionary of document paths and last seen time stamps</param>
         /// <returns>Enumerable sequence of inactive tab keys</returns>
-        public static IEnumerable<DocumentTimestamp> GetInactiveTabKeys(this ConcurrentDictionary<string, DateTime> documentTabKeys)
+        public static IEnumerable<WindowTimestamp> GetInactiveTabKeys(this ConcurrentDictionary<Window, DateTime> documentTabKeys)
         {
             return
                 documentTabKeys.Where(x => (DateTime.Now - x.Value) > TimeSpan.FromMinutes(Settings.Default.TabTimeoutMinutes))
-                    .Select(x => new DocumentTimestamp(x.Key, x.Value))
+                    .Select(x => new WindowTimestamp(x.Key, x.Value))
                     .OrderByDescending(x => DateTime.Now - x.Timestamp);
         }
 
