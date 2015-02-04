@@ -11,6 +11,7 @@ using System;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
+using DaveMcKeown.TidyTabs;
 
 [assembly: AssemblyTitle("Tidy Tabs")]
 [assembly: AssemblyDescription("Tidy Tabs Visual Studio extension")]
@@ -30,5 +31,5 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
 [assembly: NeutralResourcesLanguage("en-US")]
-[assembly: AssemblyVersion("1.9.4")]
-[assembly: AssemblyFileVersion("1.9.4")]
+[assembly: AssemblyVersion(TidyTabsPackage.Version)]
+[assembly: AssemblyFileVersion(TidyTabsPackage.Version)]

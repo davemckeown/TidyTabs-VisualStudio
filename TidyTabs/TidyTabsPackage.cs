@@ -32,13 +32,14 @@ namespace DaveMcKeown.TidyTabs
     /// </summary>
     [ProvideOptionPage(typeof(TidyTabsOptionPage), "Tidy Tabs", "Options", 1000, 1001, false)]
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
+    [InstalledProductRegistration("#110", "#112", Version, IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     [Guid(GuidList.guidTidyTabsPkgString)]
     [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed")]
     public sealed class TidyTabsPackage : Package, IVsBroadcastMessageEvents, IDisposable
     {
+        public const string Version = "1.9.4";
         /// <summary>
         ///     A lock object for document purge operations
         /// </summary>
