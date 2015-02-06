@@ -1,3 +1,10 @@
+2015-02-06 (v.1.10.1)
+* Add support for Visual Studio 2015
+* New icon and preview image
+Thanks @mkristensen!
+
+* Fix issue with certain types of document windows not being closed
+
 2014-04-10 (v.1.9.3)
 * Fixes error where in some situations the Open Tab Threshold would be off by one
 

@@ -39,7 +39,7 @@ namespace DaveMcKeown.TidyTabs
     [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed")]
     public sealed class TidyTabsPackage : Package, IVsBroadcastMessageEvents, IDisposable
     {
-        public const string Version = "1.9.4";
+        public const string Version = "1.10.1";
         /// <summary>
         ///     A lock object for document purge operations
         /// </summary>
