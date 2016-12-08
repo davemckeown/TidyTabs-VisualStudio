@@ -3,7 +3,7 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011"
                  xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="324cac6d-ff67-4e2e-8fc9-7a587b2d6045" Version="1.10.1" Language="en-US" Publisher="Dave McKeown" />
+    <Identity Id="324cac6d-ff67-4e2e-8fc9-7a587b2d6045" Version="1.11.0" Language="en-US" Publisher="Dave McKeown" />
     <DisplayName>Tidy Tabs</DisplayName>
     <Description xml:space="preserve">Tidy Tabs keeps your document well organized by closing tabs that are no longer being used. Tabs that have not been viewed in a configurable amount of time can be closed with a keyboard shortcut (CTRL+ALT+ESC) or closed automatically whenever you save a document.</Description>
     <MoreInfo>https://github.com/davemckeown/TidyTabs-VisualStudio</MoreInfo>
@@ -15,7 +15,9 @@
     <Tags>tabs, visual studio, coding</Tags>
   </Metadata>
   <Installation InstalledByMsi="false">
-    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[11.0,14.0]" />
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[11.0,16.0)" />
+    <InstallationTarget Version="[11.0,16.0)" Id="Microsoft.VisualStudio.Pro" />
+    <InstallationTarget Version="[11.0,16.0)" Id="Microsoft.VisualStudio.Enterprise" />
   </Installation>
   <Dependencies>
   </Dependencies>
